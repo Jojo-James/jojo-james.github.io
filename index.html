@@ -1180,7 +1180,7 @@
         </div>
       </div>
 
-      <form action="forms/contact.php" method="post" role="form" class="php-email-form mt-4">
+      <form id="contact-form" class="php-email-form mt-4">
         <div class="row">
           <div class="col-md-6 form-group">
             <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
@@ -1225,7 +1225,50 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 
+	<script>
+emailjs.init("307eAXAiMbgV6YVvq");
+
+const form = document.getElementById("contact-form");
+
+form.addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  document.querySelector(".loading").style.display = "block";
+
+  emailjs.sendForm(
+    "service_msk3t3n",
+    "template_0s77f0i",
+    this
+  )
+  .then(function() {
+
+    document.querySelector(".loading").style.display = "none";
+
+    document.querySelector(".sent-message").style.display = "block";
+
+    document.querySelector(".error-message").style.display = "none";
+
+    form.reset();
+
+  }, function(error) {
+
+    document.querySelector(".loading").style.display = "none";
+
+    document.querySelector(".error-message").innerHTML =
+      "Message failed to send.";
+
+    document.querySelector(".error-message").style.display = "block";
+
+    console.log(error);
+
+  });
+
+});
+</script>
+
+	
 </body>
 
 </html>
